@@ -1,0 +1,14 @@
+version: "3"
+
+services:
+
+  first:
+    container_name: first-var
+    build: .
+    
+  second:
+    container_name: second-var
+    build: 
+      context: .
+      dockerfile: Dockerfile_v2
+    

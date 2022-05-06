@@ -1,0 +1,38 @@
+---
+# tasks file for testTask
+
+
+- name: Copy RPM to remote
+  copy:
+    src: tesTask-1.0-1.el7.x86_64.rpm
+    dest: /opt/
+    force: yes
+    
+- name: Install RPM
+  yum:
+    name: /opt/tesTask-1.0-1.el7.x86_64.rpm
+    state: present
+    
+- name: Run test-task command to get old message
+  shell: test-task
+  register: message
+- debug: msg={{ message.stdout }}
+  
+- name: Write new message data in config
+  copy:
+    content: "{{ confmsg | to_json }}"
+    dest: /etc/tesTask/config.json
+    mode: '0644'
+    force: yes
+    
+- name: Run test-task command with new message
+  shell: test-task
+  register: message
+- debug: msg={{ message.stdout }}
+
+- name: Remove test-task package
+  yum:
+    name: tesTask
+    state: removed
+  
+

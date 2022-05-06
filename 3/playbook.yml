@@ -1,0 +1,6 @@
+- name: Install RPM package via ansible
+  hosts: test-host
+  become: yes
+  
+  roles:
+    - testTask
